@@ -1,0 +1,9 @@
+# config file for brownie
+dependencies:
+  - OpenZeppelin/openzeppelin-contracts@4.0.0
+#the dotenv for all the settings
+dotenv: .env
+networks:
+  default: development
+wallets:
+  devKey: ${PRIVATE_KEY}
