@@ -21,7 +21,7 @@ _allowances[owner][spender] = amount;
 _allowances[owner][spender];
  */
 
-contract SimpleNftDeposit is ReentrancyGuard {
+contract SimpleNftDeposit is ReentrancyGuard, IERC721Receiver {
   IERC721Metadata public depositedNft;
 
   struct nftDelegate{
@@ -45,6 +45,10 @@ contract SimpleNftDeposit is ReentrancyGuard {
 
   }
 
+  function onERC721Received(address operator, address from, uint256 tokenId, bytes calldata data) external returns (bytes4){
+    return this.onERC721Received.selector;
+  }
+
   function depositNft(address _nftAddress,uint256 _tokenId) external nonReentrant {
     depositedNft = IERC721Metadata(_nftAddress);
     address owner = depositedNft.ownerOf(_tokenId);
@@ -53,7 +57,7 @@ contract SimpleNftDeposit is ReentrancyGuard {
 
 
     _owners[_nftAddress][_tokenId] = nftDelegate({
-      enabled: true,
+      enabled: false,
       depositBlock: block.number,
       delegate: address(0),
       depositOwner: msg.sender
@@ -83,6 +87,12 @@ contract SimpleNftDeposit is ReentrancyGuard {
      depositedNft.safeTransferFrom(address(this), msg.sender, _tokenId);
 
 
+  }
+
+  function updateDelegatedAddress(address _nftAddress, uint256 _tokenId, address _newDelegate) external onlyStakedOwner(_nftAddress, _tokenId) {
+    _owners[_nftAddress][_tokenId].delegate = _newDelegate;
+    _owners[_nftAddress][_tokenId].enabled = true;
+
 
   }
 
@@ -98,7 +108,9 @@ Modifier Functions
 
  modifier onlyStakedOwner(address _nftAddress, uint256 _tokenId){
    depositedNft = IERC721Metadata(_nftAddress);
-   address owner = depositedNft.ownerOf(_tokenId);
+   address owner = ownerOf(_nftAddress, _tokenId);
+   require(owner != address(0), "Withdraw to the zero address");
+   require(owner == msg.sender, "Withdraw not from owner");
 
    _;
 
