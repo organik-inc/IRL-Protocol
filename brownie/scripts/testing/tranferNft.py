@@ -9,8 +9,8 @@ gas_strategy = LinearScalingStrategy("60 gwei", "70 gwei", 1.1)
 gas_price(gas_strategy)
 
 
-nft.mintNft({'from':accounts[0], "gas_price": gas_strategy})
-SimpleNft.at("0x254dffcd3277C0b1660F6d42EFbB754edaBAbC2B")
+# nft.mintNft({'from':accounts[0], "gas_price": gas_strategy})
+nft = SimpleNft.at("0x254dffcd3277C0b1660F6d42EFbB754edaBAbC2B")
 
 nft.mintNft({'from':accounts[0], "gas_price": gas_strategy})
 
