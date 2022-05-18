@@ -31,39 +31,56 @@ def createNft():
     print(f"nft deploy at {transaction.address} ")
     return nft
 
-def transferFunds(_contract):
-    _erc20 = _contract
-    _erc20.transfer(alice, 100, {"from":devAccount})
-    _erc20.transfer(bob, 100, {"from":devAccount})
-    print(f"Alice balance {_erc20.balanceOf(alice)}")
-    print(f"Bob balance {_erc20.balanceOf(bob)}")
+def mintNft(_contract):
+    _erc721 = _contract
+    _tokenId = _erc721.mintNft({"from":devAccount}).return_value
+    print(f"token id {_tokenId}")
+    return _tokenId
+
+def transferFunds(_contract,_from, _to, _tokenId):
+    _erc721 = _contract
+    _erc721.safeTransferFrom(_from, _to, _tokenId, {"from":devAccount})
+    # _erc721.safeTransferFrom(bob, 100, {"from":devAccount})
+    # print(f"Alice balance {_erc721.balanceOf(alice)}")
+    # print(f"Bob balance {_erc721.balanceOf(bob)}")
 
 
-def createVault(_tokenAddress):
-    transaction = SimpleNftDeposit.deploy(_tokenAddress, {"from":devAccount, "gas_price": gas_strategy, "allow_revert":revert}, publish_source=publishSource)
+def createVault():
+    transaction = SimpleNftDeposit.deploy( {"from":devAccount, "gas_price": gas_strategy, "allow_revert":revert}, publish_source=publishSource)
     return transaction
 
-def approveVault(_token, _vault, _user, _amount):
-    _token.approve(_vault.address, _amount, {'from': _user})
+def approveVault(_token, _vault, _user, _tokenId):
+    _token.approve(_vault.address, _tokenId, {'from': _user})
 
 
 
-def depositTokens(_vault, _user,_amount):
-    _vault.stake(_amount, {'from': _user})
+def depositTokens(_vault, _nftAddress, _tokenId, _user):
+    # address _nftAddress,uint256 _tokenId
+    _vault.depositNft(_nftAddress, _tokenId, {'from': _user})
 
-def withdrawTokens(_vault, _user, _amount):
-    _vault.withdraw(_amount, {'from': _user})
+def withdrawTokens(_vault, _nftAddress, _tokenId, _user):
+    # address _nftAddress, uint256 _tokenId
+    _vault.withdrawNft(_nftAddress, _tokenId, {'from': _user})
 
 
 def main():
     nftToken = createNft()
-    transferFunds(nftToken)
+    _token1 = mintNft(nftToken)
+    _token2 = mintNft(nftToken)
+    _token3 = mintNft(nftToken)
+    print(f"Alice balance {nftToken.balanceOf(alice)}")
+    print(f"Bob balance {nftToken.balanceOf(bob)}")
+    transferFunds(nftToken, devAccount, alice, _token1)
+    transferFunds(nftToken, devAccount, bob, _token2)
+    transferFunds(nftToken, devAccount, alice, _token3)
+    print(f"Alice balance {nftToken.balanceOf(alice)}")
+    print(f"Bob balance {nftToken.balanceOf(bob)}")
     # transaction = HelloToken.deploy(initialSupply, {"from":devAccount, "gas_price": gas_strategy, "allow_revert":revert}, publish_source=publishSource)
     print(nftToken.address)
-    vault = createVault(nftToken.address)
+    vault = createVault()
     print(f"Balance of alice : {nftToken.balanceOf(alice)}")
-    approveVault(nftToken,vault,alice, 100)
-    depositTokens(vault,alice,20)
+    approveVault(nftToken,vault,alice, _token1)
+    depositTokens(vault,nftToken.address,_token1, alice)
     print(f"Balance of alice : {nftToken.balanceOf(alice)}")
-    withdrawTokens(vault,alice,10)
+    withdrawTokens(vault,nftToken.address,_token1, alice)
     print(f"Balance of alice : {nftToken.balanceOf(alice)}")
