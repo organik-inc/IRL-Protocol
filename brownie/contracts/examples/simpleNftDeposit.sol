@@ -78,7 +78,7 @@ contract SimpleNftDeposit is ReentrancyGuard, IERC721Receiver {
 
   }
 
-  function getDelegatedOwner(address _nftAddress, uint256 _tokenId) public returns(address){
+  function getDelegatedOwner(address _nftAddress, uint256 _tokenId) public view returns(address){
     require(_owners[_nftAddress][_tokenId].enabled, "The delegate is not enabled");
     address depositOwner = _owners[_nftAddress][_tokenId].delegate;
     return depositOwner;

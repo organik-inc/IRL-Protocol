@@ -90,5 +90,7 @@ def main():
     # print(f"delegate for 0 token : {delegate}")
     delegate = vault.updateDelegatedAddress(nftToken.address,2, accounts[5], {"from":alice}).return_value
     print(f"delegate for 0 token : {delegate}")
-    delegate = vault.getDelegatedOwner(nftToken.address,2, {"from":alice}).return_value
+    delegate = vault.getDelegatedOwner(nftToken.address,2, {"from":alice})
     print(f"delegate for 0 token : {delegate}")
+    print(f"Deployed NFT: {nftToken.address}")
+    print(f"Deployed Vault: {vault.address}")

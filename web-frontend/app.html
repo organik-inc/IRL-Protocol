@@ -87,6 +87,9 @@
     <div class="mb-5">
       <a href="app.html" id="connectButton" onclick="connect()" class="btn btn-primary btn-lg px-4">Connect Wallet</a>
     </div>
+    <div class="mb-5">
+      <a  id="executeButton" onclick="getDelegate()" class="btn btn-primary btn-lg px-4">Run Contract</a>
+    </div>
     <p class="fs-5 col-md-8">Quickly and easily get started with IRL protocol. Deposit your NFT into the IRL vault, from there set a delegate address and you are able to prove ownership without exposing your NFT keys. </p>
 
     <div class="mb-5">
@@ -152,8 +155,36 @@ getCurrentBlock();
 
 
 <script type="module">
-import {connect} from "./assets/dist/js/demo.js"
+window.nftAddress = "0x27d160115a1E2aA7C4F709dDEB9dABbA82Ba5188";
+window.vaultAddress = "0x6082Ac385d4c63be87d5146b3c43E5E826A7341C";
+import {connect, executeVault} from "./assets/dist/js/demo.js"
 window.connect = connect;
+window.executeVault = executeVault;
+
+
+//UI stuff
+
+(function() {
+   // your page initialization code here
+   // the DOM will be available here
+   window.getDelegate = async function getDelegate(){
+     var x = await executeVault();
+     console.log(x);
+   }
+
+
+
+
+
+
+
+
+})();
+
+
+
+
+
 
 
 </script>
