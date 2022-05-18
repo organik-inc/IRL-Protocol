@@ -84,7 +84,9 @@
   </header>
 
   <main>
-    <h1>Secure your NFT, the usable way</h1>
+    <div class="mb-5">
+      <a href="app.html" id="connectButton" onclick="connect()" class="btn btn-primary btn-lg px-4">Connect Wallet</a>
+    </div>
     <p class="fs-5 col-md-8">Quickly and easily get started with IRL protocol. Deposit your NFT into the IRL vault, from there set a delegate address and you are able to prove ownership without exposing your NFT keys. </p>
 
     <div class="mb-5">
@@ -104,7 +106,10 @@
     <script src="assets/dist/js/bootstrap.bundle.min.js"></script>
     <!-- <script src="assets/dist/js/ethers-5.2.umd.min.js"></script> -->
 
-    <script type="module">
+    <!-- <script src="assets/myApp.js"></script> -->
+    <script type="module" src="assets/dist/js/demo.js"></script>
+
+    <!-- <script type="module">
     import { ethers } from "/assets/dist/js/ethers-5.2.esm.min.js";
     // Your code here...
     // A Web3Provider wraps a standard Web3 provider, which is
@@ -124,15 +129,34 @@ async function getCurrentBlock(){
   console.log(currentBlock);
 }
 
-async function connect(){
-  if (type)
+async function connect() {
+  if (typeof window.ethereum !== "undefined") {
+    try {
+      await ethereum.request({ method: "eth_requestAccounts" });
+    } catch (error) {
+      console.log(error);
+    }
+    document.getElementById("connectButton").innerHTML = "Connected";
+    const accounts = await ethereum.request({ method: "eth_accounts" });
+    console.log(accounts);
+  } else {
+    document.getElementById("connectButton").innerHTML =
+      "Please install MetaMask";
+  }
 }
 
 
 getCurrentBlock();
 
-</script>
+</script> -->
 
+
+<script type="module">
+import {connect} from "./assets/dist/js/demo.js"
+window.connect = connect;
+
+
+</script>
 
 
 

@@ -81,6 +81,7 @@ contract SimpleNftDeposit is ReentrancyGuard, IERC721Receiver {
   function getDelegatedOwner(address _nftAddress, uint256 _tokenId) public returns(address){
     require(_owners[_nftAddress][_tokenId].enabled, "The delegate is not enabled");
     address depositOwner = _owners[_nftAddress][_tokenId].delegate;
+    return depositOwner;
 
   }
 
@@ -96,6 +97,8 @@ contract SimpleNftDeposit is ReentrancyGuard, IERC721Receiver {
   }
 
   function updateDelegatedAddress(address _nftAddress, uint256 _tokenId, address _newDelegate) external onlyStakedOwner(_nftAddress, _tokenId) {
+    address owner = ownerOf(_nftAddress, _tokenId);
+    require(owner == msg.sender, "update not from owner");
     _owners[_nftAddress][_tokenId].delegate = _newDelegate;
     _owners[_nftAddress][_tokenId].enabled = true;
 
@@ -115,8 +118,8 @@ Modifier Functions
  modifier onlyStakedOwner(address _nftAddress, uint256 _tokenId){
    depositedNft = IERC721Metadata(_nftAddress);
    address owner = ownerOf(_nftAddress, _tokenId);
-   require(owner != address(0), "Withdraw to the zero address");
-   require(owner == msg.sender, "Withdraw not from owner");
+   /* require(owner != address(0), "Withdraw to the zero address"); */
+   /* require(owner == msg.sender, "Withdraw not from owner"); */
 
    _;
 

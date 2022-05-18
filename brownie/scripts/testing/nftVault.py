@@ -84,3 +84,11 @@ def main():
     print(f"Balance of alice : {nftToken.balanceOf(alice)}")
     withdrawTokens(vault,nftToken.address,_token1, alice)
     print(f"Balance of alice : {nftToken.balanceOf(alice)}")
+    approveVault(nftToken,vault,alice, _token3)
+    depositTokens(vault,nftToken.address,_token3, alice)
+    # delegate = vault.getDelegatedOwner(nftToken.address,0).return_value
+    # print(f"delegate for 0 token : {delegate}")
+    delegate = vault.updateDelegatedAddress(nftToken.address,2, accounts[5], {"from":alice}).return_value
+    print(f"delegate for 0 token : {delegate}")
+    delegate = vault.getDelegatedOwner(nftToken.address,2, {"from":alice}).return_value
+    print(f"delegate for 0 token : {delegate}")
