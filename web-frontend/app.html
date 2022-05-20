@@ -10,6 +10,12 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/starter-template/">
 
+    <!-- <script src="assets/dist/js/bootstrap.bundle.min.js" ></script> -->
+
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+ -->
 
 
 
@@ -88,6 +94,10 @@
       <a href="app.html" id="connectButton" onclick="connect()" class="btn btn-primary btn-lg px-4">Connect Wallet</a>
     </div>
 
+ <hr/>
+ <div class="row">
+ <span class="fs-4">Look up delegated address of locked NFT</span>
+</div>
 
     <div class="input-group mb-3">
       <div class="input-group-prepend">
@@ -114,6 +124,37 @@
     <div class="mb-5">
       <a  id="executeButton" onclick="getDelegate()" class="btn btn-primary btn-lg px-4">Get Delegate</a>
     </div>
+
+ <hr/>
+ <span class="fs-4">Deposit NFT</span>
+
+ <div class="input-group mb-3">
+   <div class="input-group-prepend">
+     <span class="input-group-text" id="basic-addon1">NFT Collection Address</span>
+   </div>
+   <input id="depositNFTAddress" type="text" class="form-control" placeholder="Address" aria-label="NFT Collection Address" aria-describedby="basic-addon1">
+ </div>
+
+ <div class="input-group mb-3">
+   <div class="input-group-prepend">
+     <span class="input-group-text" id="basic-addon3">TOKEN ID</span>
+   </div>
+   <input id="depositNftToken" type="text" class="form-control" placeholder="TokenID to Lookup (use 2)" aria-label="Username" aria-describedby="basic-addon1">
+ </div>
+
+ <div class="mb-5">
+   <a id="approveNFTButton" onclick="approveNft()" class="btn btn-primary btn-lg px-4">Approve NFT</a>
+ </div>
+
+ <div class="mb-5">
+   <a id="depositNftButton" onclick="depositNft()" class="btn btn-primary btn-lg px-4">Deposit NFT</a>
+ </div>
+
+
+
+
+
+
 
 
 
@@ -201,6 +242,11 @@ window.executeVault = executeVault;
      console.log(x);
      document.getElementById("delegatedAddressOutput").value = x;
    }
+
+   //depositNFTAddress
+   //depositNftToken
+   //depositNftButton
+   // approveNFTButton
 
 
 
