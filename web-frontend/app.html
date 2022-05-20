@@ -93,13 +93,30 @@
       <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1">NFT Collection</span>
       </div>
-      <input type="text" class="form-control" placeholder="Address" aria-label="NFT Collection" aria-describedby="basic-addon1">
+      <input id="nftCollectionAddress" type="text" class="form-control" placeholder="Address" aria-label="NFT Collection" aria-describedby="basic-addon1">
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon3">TOKEN ID</span>
+      </div>
+      <input id="getDelegateTokenId" type="text" class="form-control" placeholder="TokenID to Lookup (use 2)" aria-label="Username" aria-describedby="basic-addon1">
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text"  id="basic-addon2">Delegated address</span>
+      </div>
+      <input readonly id="delegatedAddressOutput" type="text" class="form-control" placeholder="address" aria-label="Username" aria-describedby="basic-addon1">
     </div>
 
 
     <div class="mb-5">
-      <a  id="executeButton" onclick="getDelegate()" class="btn btn-primary btn-lg px-4">Run Contract</a>
+      <a  id="executeButton" onclick="getDelegate()" class="btn btn-primary btn-lg px-4">Get Delegate</a>
     </div>
+
+
+
     <p class="fs-5 col-md-8">Quickly and easily get started with IRL protocol. Deposit your NFT into the IRL vault, from there set a delegate address and you are able to prove ownership without exposing your NFT keys. </p>
 
     <div class="mb-5">
@@ -177,9 +194,12 @@ window.executeVault = executeVault;
 (function() {
    // your page initialization code here
    // the DOM will be available here
+   document.getElementById("nftCollectionAddress").value = window.nftAddress;
    window.getDelegate = async function getDelegate(){
+     window.getDelegateTokenId = document.getElementById("getDelegateTokenId").value;
      var x = await executeVault();
      console.log(x);
+     document.getElementById("delegatedAddressOutput").value = x;
    }
 
 
